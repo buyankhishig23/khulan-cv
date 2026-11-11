@@ -249,7 +249,7 @@ export default function Home() {
           <div className="wrap">
             <div className="section-head">
               <h2 id="education-h">Боловсрол, шагнал</h2>
-              <p>Монгол Улсын Их Сургуулийг 2024 онд төгссөн. Спортын тэмцээнд дөрвөн удаа шагналт байр эзэлсэн.</p>
+              <p>Монгол Улсын Их Сургуулийг 2024 онд төгссөн. 2026 онд банк бус санхүүгийн байгууллагуудын бага олимпод гар бөмбөгөөр алтан медаль авсан.</p>
             </div>
             <div className="grid grid--top">
               <ul className="rows span-5">
@@ -275,6 +275,14 @@ export default function Home() {
                 </li>
               </ul>
               <ul className="rows span-6 start-7" id="awards">
+              <li className="award-top">
+                <span className="rows__name">
+                  <span className="medal" aria-hidden="true"></span>
+                  Алтан медаль, гар бөмбөг
+                  <small>Банк бус санхүүгийн байгууллагуудын бага олимп</small>
+                </span>
+                <span className="rows__value">2026.11.09</span>
+              </li>
               <li>
                 <span className="rows__name">
                   Тэргүүн байр

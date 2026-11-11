@@ -47,6 +47,17 @@ const tokens = `
 .tools img { width: auto; height: 72px; }
 @media (max-width: 1023px) { .tools { min-height: 360px; } }
 .logo-frame { background: #2cbcb6; overflow: hidden; }
+/* the newest award: a gold medal mark and a warm row */
+.award-top { border-bottom-color: #c99a2e !important; }
+.award-top > .rows__name { font-size: var(--t-lead); }
+.award-top > .rows__value { color: #7a5a12; font-weight: 500; }
+.medal { display: inline-block; width: 18px; height: 18px; margin-right: var(--s-2); vertical-align: -2px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff3c2, #e2b33c 45%, #a8780f); box-shadow: 0 0 0 2px #f3e7c4, 0 0 0 3px #c99a2e; }
+/* the statement band in a deep olive, and the hero photo a touch warmer */
+#about.ground-inverse { background: #3b4536; }
+.hero__media { box-shadow: 0 30px 60px -30px rgba(51, 50, 49, .45); }
+.hero__media > img { filter: saturate(1.05) contrast(1.03); }
+.hero h1 { color: #2b2a29; }
 .logo-frame > img { display: block; width: 100%; height: 100%; object-fit: contain; }
 @media (min-width: 1024px) {
   .hero--split .hero__text { display: flex; flex-direction: column; align-self: stretch; }
