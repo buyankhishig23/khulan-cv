@@ -1,606 +1,374 @@
-"use client";
+/* type: service (site-kind other)
+   deal: hero split, nav nav-centre, close close-type (close-photo dealt again: the one photograph
+   is the hero's), footer footer-columns, rhythm dark-band, buttons block, mark initial
+   palette three-stones, type source-serif (the first pairings have no Cyrillic)
+   moments: word-highlight in #about */
 
-import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+const MAIL = "mailto:hulanm765@gmail.com";
+
+function Arrow() {
+  return (
+    <svg className="m-arrow" viewBox="0 0 12 12" aria-hidden="true">
+      <path className="m-arrow__stem" d="M1 6h8" />
+      <path className="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5" />
+    </svg>
+  );
+}
+
+function Logo() {
+  return (
+    <a className="nav__logo" href="#top">
+      Мөнхбат Хулан
+    </a>
+  );
+}
 
 export default function Home() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrolled = window.scrollY;
-      const total = document.documentElement.scrollHeight - window.innerHeight;
-      setScrollProgress(total > 0 ? (scrolled / total) * 100 : 0);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry, i) => {
-          if (entry.isIntersecting) {
-            setTimeout(() => entry.target.classList.add("visible"), i * 80);
-          }
-        });
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-    );
-
-    document.querySelectorAll(".fade-in").forEach((el) => {
-      observerRef.current?.observe(el);
-    });
-
-    document.querySelectorAll(".hero .fade-in, .hero-left, .hero-right").forEach((el) => {
-      el.classList.add("visible");
-    });
-
-    return () => observerRef.current?.disconnect();
-  }, []);
-
   return (
     <>
-      <style>{`
-        .fade-in {
-          opacity: 0;
-          transform: translateY(24px);
-          transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .fade-in.visible {
-          opacity: 1;
-          transform: translateY(0);
-        }
-        .hero-left, .hero-right {
-          opacity: 1;
-          transform: none;
-        }
-      `}</style>
-
-      {/* Scroll progress bar */}
-      <div
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          height: "2px",
-          width: `${scrollProgress}%`,
-          background: "linear-gradient(to right, var(--accent), var(--accent2))",
-          zIndex: 200,
-          transition: "width 0.1s",
-        }}
-      />
-
-      {/* Nav */}
-      <nav style={{
-        position: "fixed",
-        top: 0, left: 0, right: 0,
-        zIndex: 100,
-        padding: "20px 48px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        background: "linear-gradient(to bottom, rgba(8,8,16,0.95) 0%, transparent 100%)",
-        backdropFilter: "blur(12px)",
-      }}>
-        <a href="#hero" style={{
-          fontFamily: "var(--font-space-mono), monospace",
-          fontSize: "13px",
-          color: "var(--accent)",
-          letterSpacing: "0.15em",
-          textTransform: "uppercase",
-          textDecoration: "none",
-        }}>Танилцуулга</a>
-        <ul style={{ display: "flex", gap: "36px", listStyle: "none" }}>
-          {[
-            { href: "#about", label: "Миний тухай" },
-            { href: "#experience", label: "Туршлага" },
-            { href: "#skills", label: "Ур чадвар" },
-            { href: "#education", label: "Боловсрол" },
-            { href: "#awards", label: "Шагнал" },
-          ].map((link) => (
-            <li key={link.href}>
-              <a href={link.href} style={{
-                fontFamily: "var(--font-space-mono), monospace",
-                fontSize: "11px",
-                letterSpacing: "0.12em",
-                textTransform: "uppercase",
-                color: "var(--muted)",
-                textDecoration: "none",
-              }}
-              onMouseEnter={e => (e.currentTarget.style.color = "var(--accent)")}
-              onMouseLeave={e => (e.currentTarget.style.color = "var(--muted)")}
-              >{link.label}</a>
-            </li>
-          ))}
-        </ul>
-      </nav>
-
-      {/* Hero */}
-      <section id="hero" style={{ position: "relative", zIndex: 1 }}>
-        <div className="hero-left hero-right" style={{
-          minHeight: "100vh",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          alignItems: "center",
-          padding: "120px 80px 80px",
-          gap: "80px",
-          maxWidth: "1400px",
-          margin: "0 auto",
-          position: "relative",
-        }}>
-          {/* Scanline */}
-          <div style={{
-            position: "absolute",
-            top: 0, left: 0, right: 0,
-            height: "2px",
-            background: "linear-gradient(to right, transparent, var(--accent), transparent)",
-            opacity: 0.3,
-            animation: "scanline 4s ease-in-out infinite",
-            pointerEvents: "none",
-          }} />
-
-          <div style={{ display: "flex", flexDirection: "column", gap: "32px" }}>
-            <div style={{
-              display: "inline-flex",
-              alignItems: "center",
-              gap: "8px",
-              fontFamily: "var(--font-space-mono), monospace",
-              fontSize: "11px",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "var(--accent)",
-              border: "1px solid rgba(64,220,200,0.25)",
-              padding: "6px 14px",
-              width: "fit-content",
-            }}>
-              <span style={{
-                width: "6px", height: "6px",
-                background: "var(--accent)",
-                borderRadius: "50%",
-                animation: "pulse 2s ease-in-out infinite",
-                flexShrink: 0,
-              }} />
-              Санхүү · Хүний Нөөц
+      <header className="nav nav--centre">
+        <div className="wrap nav__bar">
+          <a className="skip-link" href="#top">
+            Агуулга руу очих
+          </a>
+          <Logo />
+          <nav className="nav__links" aria-label="Үндсэн цэс">
+            <div className="nav__item">
+              <a className="nav__link" href="#experience">
+                Туршлага
+              </a>
             </div>
+            <div className="nav__item">
+              <a className="nav__link" href="#about">
+                Тухай
+              </a>
+            </div>
+            <div className="nav__item">
+              <a className="nav__link" href="#skills">
+                Чадвар
+              </a>
+            </div>
+            <div className="nav__item">
+              <a className="nav__link" href="#education">
+                Боловсрол
+              </a>
+            </div>
+          </nav>
+          <div className="nav__actions">
+            <a className="btn btn--primary" href={MAIL}>
+              Имэйл бичих
+            </a>
+          </div>
+          <button className="nav__toggle" type="button" aria-expanded="false" aria-label="Цэс">
+            <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+              <path d="M2 5h14M2 13h14" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+            </svg>
+          </button>
+        </div>
+      </header>
 
-            <h1 style={{
-              fontSize: "clamp(48px, 6vw, 88px)",
-              fontWeight: 700,
-              lineHeight: 0.95,
-              letterSpacing: "-0.03em",
-            }}>
-              <span style={{
-                display: "block",
-                background: "linear-gradient(135deg, #e2e2f0 0%, var(--accent) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}>Мөнхбат</span>
-              <span style={{
-                display: "block",
-                background: "linear-gradient(135deg, #e2e2f0 0%, var(--accent) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}>Хулан</span>
-            </h1>
-
-            <p style={{ fontSize: "18px", color: "var(--muted)", fontWeight: 300, letterSpacing: "0.02em", lineHeight: 1.6 }}>
-              <strong style={{ color: "var(--text)", fontWeight: 500 }}>Зээлийн эргэн төлөлтийн менежер</strong> — Тус Финтек ББСБ<br />
-              Санхүү болон хүний нөөцийн чиглэлд туршлагатай мэргэжилтэн
-            </p>
-
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "8px" }}>
-              {["hulanm765@gmail.com", "+976 9561 9882"].map((item) => (
-                <div key={item} style={{
-                  display: "flex", alignItems: "center", gap: "12px",
-                  fontFamily: "var(--font-space-mono), monospace",
-                  fontSize: "12px", color: "var(--muted)", letterSpacing: "0.05em",
-                }}>
-                  <div style={{ width: "4px", height: "4px", background: "var(--accent)", flexShrink: 0 }} />
-                  {item}
+      <main id="top">
+        <section className="hero hero--split" data-enter="" aria-labelledby="hero-h">
+          <div className="wrap">
+            <div className="hero-text grid hero__grid">
+              <div className="hero__text span-5">
+                <p className="hero__kicker">
+                  <span className="dot" aria-hidden="true"></span>
+                  МУИС, нийгмийн ажлын бакалавр, 2024
+                </p>
+                <h1 id="hero-h">Зээлийн менежер Мөнхбат Хулан</h1>
+                <p className="hero__lead">
+                  Тус Финтек ББСБ-д хугацаа хэтэрсэн зээлийг бууруулах ажлыг хариуцдаг. Өмнө нь Жүр Үр ХХК-д хүний
+                  нөөцийг нэг жил хариуцсан.
+                </p>
+                <div className="btn-row">
+                  <a className="btn btn--primary" href={MAIL}>
+                    Имэйл бичих
+                  </a>
+                  <a className="btn btn--secondary" href="#experience">
+                    Туршлага үзэх
+                  </a>
                 </div>
-              ))}
-            </div>
-
-            <div style={{ display: "flex", gap: "16px", marginTop: "8px" }}>
-              <a href="#experience" style={{
-                padding: "12px 28px",
-                background: "var(--accent)",
-                color: "#080810",
-                fontFamily: "var(--font-space-mono), monospace",
-                fontSize: "11px",
-                fontWeight: 700,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                clipPath: "polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%)",
-                display: "inline-block",
-              }}>Туршлага харах</a>
-              <a href="mailto:hulanm765@gmail.com" style={{
-                padding: "12px 28px",
-                background: "transparent",
-                color: "var(--accent)",
-                fontFamily: "var(--font-space-mono), monospace",
-                fontSize: "11px",
-                fontWeight: 700,
-                letterSpacing: "0.15em",
-                textTransform: "uppercase",
-                textDecoration: "none",
-                border: "1px solid rgba(64,220,200,0.3)",
-                display: "inline-block",
-              }}>Холбогдох</a>
+                <dl className="hero-facts">
+                  <div>
+                    <dt>Одоо</dt>
+                    <dd>Тус Финтек ББСБ</dd>
+                  </div>
+                  <div>
+                    <dt>Өмнө нь</dt>
+                    <dd>Жүр Үр ХХК</dd>
+                  </div>
+                  <div>
+                    <dt>Хэл</dt>
+                    <dd>Англи, солонгос</dd>
+                  </div>
+                </dl>
+              </div>
+              <div className="hero__media span-6 start-7">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/profile.jpg"
+                  srcSet="/profile-800.jpg 800w, /profile.jpg 1364w"
+                  sizes="(max-width: 1023px) 100vw, 628px"
+                  alt="Мөнхбат Хулан номын тавиурын өмнө сандал дээр сууж байна"
+                  width={1364}
+                  height={2048}
+                  style={{ ["--ly-pos" as string]: "50% 22%" }}
+                  fetchPriority="high"
+                  data-source="client"
+                  data-subject="Мөнхбат Хулангийн хөрөг"
+                />
+                <div className="ly-float">
+                  <div className="ly-float__row">
+                    <span className="ly-live">Одоогийн ажил</span>
+                    <span>2025.07-оос</span>
+                  </div>
+                  <div className="ly-float__title">Тус Финтек ББСБ</div>
+                </div>
+              </div>
             </div>
           </div>
+        </section>
 
-          {/* Photo */}
-          <div style={{ position: "relative", display: "flex", justifyContent: "center" }}>
-            <div style={{ position: "relative", width: "420px", height: "520px" }}>
-              {/* Gradient border */}
-              <div style={{
-                position: "absolute",
-                inset: "-1px",
-                background: "linear-gradient(135deg, var(--accent) 0%, transparent 50%, var(--accent2) 100%)",
-                clipPath: "polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%)",
-                zIndex: 1,
-              }} />
-              <Image
-                src="/profile.jpg"
-                alt="Мөнхбат Хулан"
-                width={418}
-                height={518}
-                style={{
-                  objectFit: "cover",
-                  objectPosition: "center top",
-                  clipPath: "polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%)",
-                  filter: "grayscale(15%) contrast(1.05)",
-                  zIndex: 2,
-                  position: "absolute",
-                  inset: "1px",
-                }}
-                priority
+        <section className="section" id="experience" aria-labelledby="experience-h">
+          <div className="wrap grid grid--top">
+            <div className="span-5">
+              <div className="section-head">
+                <h2 id="experience-h">Ажлын туршлага</h2>
+                <p>2024 оны 6-р сараас хойш хоёр байгууллагад ажилласан.</p>
+              </div>
+              <ul className="rows">
+                <li>
+                  <span className="rows__name">
+                    Зээлийн эргэн төлөлтийн менежер
+                    <small>Тус Финтек ББСБ · 2025.07 – одоо</small>
+                  </span>
+                  <p>Зээлийн эргэн төлөлтийг хянаж, хугацаа хэтэрсэн зээлийг бууруулах арга хэмжээ авдаг.</p>
+                  <p>Чанаргүй зээлийн түвшинг бууруулж, мөнгөн урсгалыг тогтвортой байлгахад оролцдог.</p>
+                  <p>Харилцагчийн төлбөрийн сахилга, санхүүгийн хариуцлагыг сайжруулах ажил хийдэг.</p>
+                </li>
+                <li>
+                  <span className="rows__name">
+                    Хүний нөөцийн мэргэжилтэн
+                    <small>Жүр Үр ХХК · 2024.06 – 2025.06</small>
+                  </span>
+                  <p>Бүрдүүлэлт, сонгон шалгаруулалт, хөдөлмөрийн харилцааг бие даан хариуцсан.</p>
+                  <p>Ажлын байрны тодорхойлолт боловсруулж, тушаал гаргаж, баримт бичгийг хөтөлсөн.</p>
+                </li>
+              </ul>
+            </div>
+            <div className="frame frame--fill logo-frame span-6 start-7">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/tusfintech.jpg"
+                alt="Тус Финтек ББСБ-ын «Тус зээлийн апп» лого"
+                width={1200}
+                height={630}
+                loading="lazy"
+                data-source="client"
+                data-subject="Тус Финтек ББСБ-ын лого"
               />
-              {/* Corners */}
-              {[
-                { cls: "tl", style: { top: "-12px", left: "-12px", borderWidth: "2px 0 0 2px" } },
-                { cls: "tr", style: { top: "-12px", right: "-12px", borderWidth: "2px 2px 0 0" } },
-                { cls: "bl", style: { bottom: "-12px", left: "-12px", borderWidth: "0 0 2px 2px" } },
-                { cls: "br", style: { bottom: "-12px", right: "-12px", borderWidth: "0 2px 2px 0" } },
-              ].map((c) => (
-                <div key={c.cls} style={{
-                  position: "absolute",
-                  width: "40px", height: "40px",
-                  borderColor: "var(--accent)",
-                  borderStyle: "solid",
-                  zIndex: 3,
-                  ...c.style,
-                }} />
-              ))}
-              {/* Badge */}
-              <div style={{
-                position: "absolute",
-                bottom: "-24px", right: "-24px",
-                background: "var(--surface2)",
-                border: "1px solid var(--border)",
-                padding: "16px 20px",
-                zIndex: 4,
-              }}>
-                <div style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "32px", fontWeight: 700, color: "var(--accent)", lineHeight: 1 }}>3+</div>
-                <div style={{ fontSize: "10px", color: "var(--muted)", letterSpacing: "0.1em", textTransform: "uppercase", marginTop: "4px" }}>Жилийн туршлага</div>
-              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* About */}
-      <section id="about" style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "100px 80px" }}>
-          <SectionHeader num="01" title="Миний тухай" />
-          <div className="fade-in" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", alignItems: "start" }}>
-            <p style={{ fontSize: "17px", lineHeight: 1.8, color: "rgba(226,226,240,0.8)", fontWeight: 300 }}>
-              Санхүү болон хүний нөөцийн чиглэлээр ажлын туршлагатай. Хүний нөөцийн бүрдүүлэлт, сонгон шалгаруулалт, хөдөлмөрийн харилцааг бие даан хариуцан ажилласан. Одоогоор зээлийн эргэн төлөлтийн менежерээр ажиллаж, чанаргүй зээлийг бууруулах, мөнгөн урсгалын тогтвортой байдлыг хангахад хувь нэмрээ оруулан ажиллаж байна.<br /><br />
-              Их сургуулийн хугацаанд &apos;Залуу нийгмийн ажилтан&apos; клубийн дэд тэргүүнээр ажиллаж байсан.
+        {/* word-highlight: one statement in its own section, on the page's one dark band */}
+        <section
+          className="section statement ground-inverse"
+          id="about"
+          data-moment="word-highlight"
+          aria-label="Миний тухай"
+        >
+          <div className="wrap">
+            <p className="t-label">Миний тухай</p>
+            <p className="mo-wh__text">
+              Хүний нөөцийн бүрдүүлэлт, сонгон шалгаруулалт, хөдөлмөрийн харилцааг бие даан хариуцаж байсан. Одоо{" "}
+              <strong>чанаргүй зээлийг</strong> бууруулж, мөнгөн урсгалыг тогтвортой байлгах ажил хийж байна.
             </p>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1px", background: "var(--border)" }}>
-              {[
-                { num: "2+", label: "Компанид ажилласан" },
-                { num: "3.3", label: "Голч дүн (GPA)" },
-                { num: "20+", label: "Шагнал, амжилт" },
-                { num: "2", label: "Гадаад хэл" },
-              ].map((stat) => (
-                <StatCard key={stat.label} num={stat.num} label={stat.label} />
-              ))}
+          </div>
+        </section>
+
+        <section className="section" id="skills" aria-labelledby="skills-h">
+          <div className="wrap grid grid--top">
+            <div className="span-5">
+              <div className="section-head">
+                <h2 id="skills-h">Ур чадвар</h2>
+                <p>Хоёр ажлын байранд өдөр тутам хэрэглэсэн мэдлэг, хэл, програм.</p>
+              </div>
+              <ul className="rows">
+                <li>
+                  <span className="rows__name">Мэргэжлийн</span>
+                  <p>Хүний нөөц, хөдөлмөрийн хууль, зээлийн эргэн төлөлтийн хяналт, баримт бичиг</p>
+                </li>
+                <li>
+                  <span className="rows__name">Гадаад хэл</span>
+                  <p>Англи, солонгос</p>
+                </li>
+                <li>
+                  <span className="rows__name">Хувийн</span>
+                  <p>Багаар ажиллах, манлайлал, шинжилгээ, асуудал шийдвэрлэх, цаг баримтлах</p>
+                </li>
+                <li>
+                  <span className="rows__name">Програм</span>
+                  <p>Word, Excel, PowerPoint, Figma, Canva, CapCut</p>
+                </li>
+              </ul>
+            </div>
+            <div
+              className="frame frame--fill tools span-6 start-7"
+              role="img"
+              aria-label="Word, Excel, PowerPoint, Figma програмын тэмдэг"
+            >
+              <ul>
+                <li>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="ic" data-icon="docx" src="/assets/icons/docx.svg" alt="" width={72} height={72} />
+                  <span>Word</span>
+                </li>
+                <li>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="ic" data-icon="xlsx" src="/assets/icons/xlsx.svg" alt="" width={72} height={72} />
+                  <span>Excel</span>
+                </li>
+                <li>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="ic" data-icon="pptx" src="/assets/icons/pptx.svg" alt="" width={72} height={72} />
+                  <span>PowerPoint</span>
+                </li>
+                <li>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img className="ic ic-tall" data-icon="figma" src="/assets/icons/figma.svg" alt="" width={48} height={72} />
+                  <span>Figma</span>
+                </li>
+              </ul>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Experience */}
-      <section id="experience" style={{ background: "var(--surface)", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "100px 80px" }}>
-          <SectionHeader num="02" title="Ажлын туршлага" />
-          <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
-            <ExpItem
-              date="2025.07 — Одоо"
-              company='"Тус Финтек ББСБ" ХХК'
-              title="Зээлийн эргэн төлөлтийн менежер"
-              duties={[
-                "Зээлийн эргэн төлөлтийн хяналтыг хэрэгжүүлж, хугацаа хэтэрсэн зээлийг бууруулах арга хэмжээ авах",
-                "Чанаргүй зээлийн түвшинг бууруулж, мөнгөн урсгалын тогтвортой байдлыг хангахад хувь нэмэр оруулах",
-                "Харилцагчийн төлбөрийн сахилга, санхүүгийн хариуцлагыг сайжруулах",
-              ]}
-            />
-            <ExpItem
-              date="2024.06 — 2025.06"
-              company='"Жүр Үр" ХХК'
-              title="Хүний нөөцийн мэргэжилтэн"
-              duties={[
-                "Хүний нөөцийн бүрдүүлэлт, сонгон шалгаруулалт, хөдөлмөрийн харилцааг бие даан хариуцан ажилласан",
-                "Ажлын байрны тодорхойлолт боловсруулах, тушаал гаргах, баримт бичгийн бүрдүүлэлт хөтлөх",
-              ]}
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Skills */}
-      <section id="skills" style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "100px 80px" }}>
-          <SectionHeader num="03" title="Ур чадвар" />
-          <div className="fade-in" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "2px", background: "var(--border)" }}>
-            <SkillGroup title="Гадаад хэл" tags={["Англи", "Солонгос"]} />
-            <SkillGroup title="Компьютерийн ур чадвар" tags={["Word", "Excel", "PowerPoint", "Canva", "Figma", "CapCut"]} />
-            <SkillGroup title="Мэргэжлийн ур чадвар" tags={["Хүний нөөц", "Хөдөлмөрийн хууль", "Зээлийн эргэн төлөлтийн хяналт", "Баримт бичиг"]} />
-            <SkillGroup title="Хувийн ур чадвар" tags={["Багаар ажиллах", "Манлайлал", "Шинжилгээ", "Асуудал шийдвэрлэх", "Цаг баримтлах"]} />
-            <SkillGroup title="Спортын ур чадвар" tags={["Волейбол · 1-р зэрэг", "Сагсан бөмбөг"]} />
-          </div>
-        </div>
-      </section>
-
-      {/* Education */}
-      <section id="education" style={{ background: "var(--surface)", position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "100px 80px" }}>
-          <SectionHeader num="04" title="Боловсрол" />
-          <div className="fade-in" style={{
-            border: "1px solid var(--border)",
-            padding: "48px",
-            display: "grid",
-            gridTemplateColumns: "1fr auto",
-            gap: "40px",
-            alignItems: "center",
-            position: "relative",
-            overflow: "hidden",
-          }}>
-            <div style={{
-              position: "absolute",
-              left: 0, top: 0, bottom: 0,
-              width: "3px",
-              background: "linear-gradient(to bottom, var(--accent), var(--accent2))",
-            }} />
-            <div>
-              <div style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "10px", letterSpacing: "0.2em", color: "var(--accent)", textTransform: "uppercase", marginBottom: "10px" }}>
-                Бакалавр · 2020 — 2024
-              </div>
-              <div style={{ fontSize: "24px", fontWeight: 700, marginBottom: "8px", letterSpacing: "-0.01em" }}>
-                Монгол Улсын Их Сургууль
-              </div>
-              <div style={{ fontSize: "15px", color: "var(--muted)" }}>
-                Нийгмийн ажил — Нийгмийн ухааны салбар сургууль
-              </div>
+        <section className="section" id="education" aria-labelledby="education-h">
+          <div className="wrap">
+            <div className="section-head">
+              <h2 id="education-h">Боловсрол, шагнал</h2>
+              <p>Монгол Улсын Их Сургуулийг 2024 онд төгссөн. Спортын тэмцээнд дөрвөн удаа шагналт байр эзэлсэн.</p>
             </div>
-            <div style={{
-              textAlign: "center",
-              background: "rgba(64,220,200,0.06)",
-              border: "1px solid rgba(64,220,200,0.2)",
-              padding: "24px 32px",
-            }}>
-              <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "36px", fontWeight: 700, color: "var(--accent)", display: "block" }}>3.3</span>
-              <span style={{ fontSize: "10px", color: "var(--muted)", letterSpacing: "0.15em", textTransform: "uppercase", marginTop: "4px", display: "block" }}>Голч дүн</span>
+            <div className="grid grid--top">
+              <ul className="rows span-5">
+                <li>
+                  <span className="rows__name">
+                    Нийгмийн ажлын бакалавр
+                    <small>МУИС, Нийгмийн ухааны салбар сургууль</small>
+                  </span>
+                  <span className="rows__value">2020–2024</span>
+                </li>
+                <li>
+                  <span className="rows__name">
+                    Голч дүн
+                    <small>Бакалаврын хөтөлбөр</small>
+                  </span>
+                  <span className="rows__value">3.3</span>
+                </li>
+                <li>
+                  <span className="rows__name">
+                    «Залуу нийгмийн ажилтан» клубийн дэд тэргүүн
+                    <small>Монгол Улсын Их Сургууль</small>
+                  </span>
+                </li>
+              </ul>
+              <ul className="rows span-6 start-7" id="awards">
+              <li>
+                <span className="rows__name">
+                  Тэргүүн байр
+                  <small>МУИС-ийн Нийгмийн ухааны салбар сургуулийн спортын баг наадам</small>
+                </span>
+                <span className="rows__value">2022</span>
+              </li>
+              <li>
+                <span className="rows__name">
+                  Дэд байр
+                  <small>МУИС-ийн Нийгмийн ухааны салбар сургуулийн спортын баг наадам</small>
+                </span>
+                <span className="rows__value">2023</span>
+              </li>
+              <li>
+                <span className="rows__name">
+                  Тэргүүн байр
+                  <small>Орхон аймгийн идэрчүүдийн аварга шалгаруулах тэмцээн</small>
+                </span>
+                <span className="rows__value">2019</span>
+              </li>
+              <li>
+                <span className="rows__name">
+                  Тэргүүн байр
+                  <small>Орхон аймгийн идэрчүүдийн аварга шалгаруулах тэмцээн</small>
+                </span>
+                <span className="rows__value">2018</span>
+              </li>
+              <li>
+                <span className="rows__name">
+                  Волейболын 1-р зэрэг
+                  <small>Мөн сагсан бөмбөг тоглодог</small>
+                </span>
+              </li>
+              </ul>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </main>
 
-      {/* Awards */}
-      <section id="awards" style={{ position: "relative", zIndex: 1 }}>
-        <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "100px 80px" }}>
-          <SectionHeader num="05" title="Шагнал · Амжилт" />
-          <div className="fade-in" style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "2px", background: "var(--border)" }}>
-            <AwardItem rank="🥇" rankColor="oklch(0.78 0.18 80)" text="МУИС Нийгмийн ухааны салбар сургуулийн спортын баг наадам" year="2022 · Тэргүүн байр" />
-            <AwardItem rank="🥈" rankColor="oklch(0.75 0.04 250)" text="МУИС Нийгмийн ухааны салбар сургуулийн спортын баг наадам" year="2023 · Дэд байр" />
-            <AwardItem rank="🥇" rankColor="oklch(0.78 0.18 80)" text="Орхон аймгийн идэрчүүдийн аварга шалгаруулах тэмцээн" year="2019 · Тэргүүн байр" />
-            <AwardItem rank="🥇" rankColor="oklch(0.78 0.18 80)" text="Орхон аймгийн идэрчүүдийн аварга шалгаруулах тэмцээн" year="2018 · Тэргүүн байр" />
-            <AwardItem rank="★" rankColor="var(--accent)" rankSize="18px" text="'Залуу нийгмийн ажилтан' клубийн Дэд тэргүүн" year="Монгол Улсын Их Сургууль" />
+      <footer className="footer closing" id="contact" aria-labelledby="close-h">
+        <div className="wrap">
+          <div className="closing__cta close--type">
+            <div className="section-head">
+              <h2 id="close-h">Ажлын саналаа имэйлээр илгээнэ үү</h2>
+              <p className="t-small muted">Утсаар холбогдох бол доорх дугаарт залгана уу.</p>
+            </div>
+            <a className="btn btn--primary btn--xl" href={MAIL}>
+              Имэйл бичих
+              <Arrow />
+            </a>
           </div>
-        </div>
-      </section>
-
-      {/* Employer logo */}
-      <div className="fade-in" style={{
-        maxWidth: "1200px",
-        margin: "0 auto",
-        padding: "0 80px 100px",
-        display: "flex",
-        alignItems: "center",
-        gap: "24px",
-        position: "relative",
-        zIndex: 1,
-      }}>
-        <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "10px", color: "var(--muted)", letterSpacing: "0.15em", textTransform: "uppercase", whiteSpace: "nowrap" }}>
-          Одоогийн ажил олгогч
-        </span>
-        <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
-        <div style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "16px",
-          padding: "16px 24px",
-          background: "var(--surface)",
-          border: "1px solid var(--border)",
-        }}>
-          <Image src="/tusfintech.jpg" alt="Тус Финтек" height={40} width={120} style={{ height: "40px", width: "auto" }} />
-        </div>
-      </div>
-
-      {/* Footer */}
-      <footer style={{
-        borderTop: "1px solid var(--border)",
-        padding: "40px 80px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        position: "relative",
-        zIndex: 1,
-      }}>
-        <div style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "12px", color: "var(--muted)", letterSpacing: "0.1em" }}>
-          © 2026 · Мөнхбат Хулан
-        </div>
-        <div style={{ display: "flex", gap: "32px" }}>
-          {[
-            { href: "mailto:hulanm765@gmail.com", label: "hulanm765@gmail.com" },
-            { href: "tel:+97695619882", label: "+976 9561 9882" },
-          ].map((link) => (
-            <a key={link.href} href={link.href} style={{
-              fontFamily: "var(--font-space-mono), monospace",
-              fontSize: "11px",
-              color: "var(--muted)",
-              textDecoration: "none",
-              letterSpacing: "0.08em",
-            }}
-            onMouseEnter={e => (e.currentTarget.style.color = "var(--accent)")}
-            onMouseLeave={e => (e.currentTarget.style.color = "var(--muted)")}
-            >{link.label}</a>
-          ))}
+          <div className="closing__links">
+            <div className="grid">
+              <div className="span-6 stack-4">
+                <Logo />
+                <p className="footer__lede">Зээлийн эргэн төлөлт, хүний нөөцийн мэргэжилтэн.</p>
+              </div>
+              <div className="span-3 start-7 footer__col">
+                <h3>Танилцуулга</h3>
+                <ul>
+                  <li>
+                    <a href="#experience">Туршлага</a>
+                  </li>
+                  <li>
+                    <a href="#about">Тухай</a>
+                  </li>
+                  <li>
+                    <a href="#skills">Чадвар</a>
+                  </li>
+                  <li>
+                    <a href="#education">Боловсрол</a>
+                  </li>
+                </ul>
+              </div>
+              <div className="span-3 footer__col">
+                <h3>Холбоо барих</h3>
+                <ul>
+                  <li>
+                    <a href={MAIL}>hulanm765@gmail.com</a>
+                  </li>
+                  <li>
+                    <a href="tel:+97695619882">+976 9561 9882</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div className="footer__legal">
+              <span>&copy; 2026 Мөнхбат Хулан</span>
+              <span>Бүтээгдэхүүний нэр, лого нь эзэмшигчдийнхээ барааны тэмдэг.</span>
+            </div>
+          </div>
         </div>
       </footer>
     </>
-  );
-}
-
-function SectionHeader({ num, title }: { num: string; title: string }) {
-  return (
-    <div className="fade-in" style={{ display: "flex", alignItems: "center", gap: "20px", marginBottom: "60px" }}>
-      <span style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "11px", color: "var(--accent)", letterSpacing: "0.2em" }}>{num}</span>
-      <h2 style={{ fontSize: "36px", fontWeight: 700, letterSpacing: "-0.02em" }}>{title}</h2>
-      <div style={{ flex: 1, height: "1px", background: "var(--border)" }} />
-    </div>
-  );
-}
-
-function StatCard({ num, label }: { num: string; label: string }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      style={{ background: "var(--surface)", padding: "32px 28px", position: "relative", overflow: "hidden" }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{
-        position: "absolute",
-        bottom: 0, left: 0,
-        height: "2px",
-        width: hovered ? "100%" : "0",
-        background: "var(--accent)",
-        transition: "width 0.4s ease",
-      }} />
-      <div style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "40px", fontWeight: 700, color: "var(--accent)", lineHeight: 1 }}>{num}</div>
-      <div style={{ fontSize: "12px", color: "var(--muted)", marginTop: "8px", letterSpacing: "0.05em" }}>{label}</div>
-    </div>
-  );
-}
-
-function ExpItem({ date, company, title, duties }: { date: string; company: string; title: string; duties: string[] }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      className="fade-in"
-      style={{
-        background: hovered ? "rgba(64,220,200,0.02)" : "var(--bg)",
-        border: `1px solid ${hovered ? "rgba(64,220,200,0.25)" : "var(--border)"}`,
-        padding: "36px 40px",
-        display: "grid",
-        gridTemplateColumns: "200px 1fr",
-        gap: "40px",
-        alignItems: "start",
-        transition: "border-color 0.2s, background 0.2s",
-        cursor: "default",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{ paddingTop: "4px" }}>
-        <div style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "10px", color: "var(--accent)", letterSpacing: "0.15em", textTransform: "uppercase", marginBottom: "8px" }}>{date}</div>
-        <div style={{ fontSize: "13px", color: "var(--muted)", fontWeight: 400 }}>{company}</div>
-      </div>
-      <div>
-        <h3 style={{ fontSize: "20px", fontWeight: 600, marginBottom: "16px", letterSpacing: "-0.01em" }}>{title}</h3>
-        <ul style={{ listStyle: "none", display: "flex", flexDirection: "column", gap: "10px" }}>
-          {duties.map((duty) => (
-            <li key={duty} style={{ fontSize: "14px", color: "rgba(226,226,240,0.7)", lineHeight: 1.6, paddingLeft: "20px", position: "relative" }}>
-              <span style={{ position: "absolute", left: 0, color: "var(--accent)", fontSize: "12px" }}>→</span>
-              {duty}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-function SkillGroup({ title, tags }: { title: string; tags: string[] }) {
-  return (
-    <div style={{ background: "var(--surface)", padding: "36px 32px" }}>
-      <div style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "10px", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--accent)", marginBottom: "20px" }}>{title}</div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-        {tags.map((tag) => <Tag key={tag}>{tag}</Tag>)}
-      </div>
-    </div>
-  );
-}
-
-function Tag({ children }: { children: React.ReactNode }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <span
-      style={{
-        padding: "6px 14px",
-        border: `1px solid ${hovered ? "var(--accent)" : "var(--border)"}`,
-        fontSize: "12px",
-        color: hovered ? "var(--accent)" : "var(--text)",
-        background: "var(--bg)",
-        letterSpacing: "0.03em",
-        transition: "all 0.2s",
-        cursor: "default",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >{children}</span>
-  );
-}
-
-function AwardItem({ rank, rankColor, rankSize, text, year }: { rank: string; rankColor: string; rankSize?: string; text: string; year: string }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      style={{
-        background: hovered ? "var(--surface2)" : "var(--surface)",
-        padding: "28px 32px",
-        display: "flex",
-        alignItems: "flex-start",
-        gap: "16px",
-        transition: "background 0.2s",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <div style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: rankSize ?? "24px", fontWeight: 700, color: rankColor, lineHeight: 1, flexShrink: 0, width: "32px", paddingTop: rankSize ? "4px" : undefined }}>{rank}</div>
-      <div>
-        <div style={{ fontSize: "14px", color: "rgba(226,226,240,0.8)", lineHeight: 1.5 }}>{text}</div>
-        <div style={{ fontFamily: "var(--font-space-mono), monospace", fontSize: "10px", color: "var(--muted)", marginTop: "4px", letterSpacing: "0.1em" }}>{year}</div>
-      </div>
-    </div>
   );
 }
